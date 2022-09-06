@@ -33,6 +33,10 @@ const produto = db.define('produto', {
         type: DataTypes.BOOLEAN,
         allowNull: false,
         defaultValue: 1
+    },
+    imagem: {
+        type: DataTypes.TEXT,
+        allowNull: false
     }
 });
 

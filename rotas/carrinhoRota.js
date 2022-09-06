@@ -1,23 +1,23 @@
 const express = require("express");
 const router = express.Router();
-const produtodb = require('./../models/produtodb');
+const carrinhodb = require('./../models/carrinhodb');
 
 router.post('/', async(req, res) => {
     try {
-        await produtodb.create(req.body);
-        return res.send({mensagem: "Produto cadastrado com sucesso"});
+        await carrinhodb.create(req.body);
+        return res.send({mensagem: "Produto adicionado no carrinho com sucesso"});
     } catch(err) {
         return res.status(500).send({mensagem: `Erro: ${err}`});
     }
 });
 
-router.get('/:id', async(req, res) => {
+router.get('/:usuarioId', async(req, res) => {
     try {
-        const produto = await produtodb.findAll({where: {id: req.params.id}});
-        if (!produto || produto.length === 0) {
-            return res.status(404).send({mensagem: "Produto não encontrado"});
-        }
-        return res.send(produto);
+        const carrinho = await carrinhodb.findAll({where: {usuarioId: req.params.usuarioId}});
+        if (!carrinho || carrinho.length === 0) {
+            return res.status(404).send({mensagem: "Carrinho vázio"});
+        }  
+        return res.send(carrinho);
     } catch(err) {
         return res.status(500).send({mensagem: `Erro: ${err}`});
     }
@@ -25,7 +25,7 @@ router.get('/:id', async(req, res) => {
 
 router.delete('/:id', async(req, res) => {
     try {
-        await produtodb.destroy({where: {id: req.params.id}});
+        await carrinhodb.destroy({where: {id: req.params.id}});
         return res.send({mensagem: "Produto deletado com sucesso"});
     } catch(err) {
         return res.status(500).send({mensagem: `Erro: ${err}`});
